@@ -1,7 +1,9 @@
 <template>
   <div :style="buttonStyle">
-    <v-btn color="deep-purple" @click="hidden = !hidden"> My list </v-btn>
-    <MyMovieList v-if="!hidden" />
+    <v-btn color="deep-purple" v-if="hidden" @click="hidden = !hidden">
+      My list
+    </v-btn>
+    <MyMovieList v-if="!hidden" :show='!hidden' @close-modal="closeModal" />
   </div>
 </template>
 
@@ -23,5 +25,10 @@ export default {
       justifyContent: "flex-end",
     },
   }),
+  methods: {
+    closeModal() {
+      this.hidden = true;
+    },
+  },
 };
 </script>

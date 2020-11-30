@@ -3,8 +3,11 @@
     <label class="col-sm-1 control-label">{{ itemIndex + 1 }}</label>
     <img
       height="200"
-      :src="config.imageUrl + movie.posterPath"
-      alt="no poster"
+      :src="
+        movie.posterPath
+          ? config.imageUrl + movie.posterPath
+          : 'http://www.aaru.edu.jo/websites/aaru2/wp-content/plugins/learnpress/assets/images/no-image.png?Mobile=1&Source=%2F%5Flayouts%2Fmobile%2Fview%2Easpx%3FList%3D78b536db%252De7c7%252D45d9%252Da661%252Ddb2a2aa2fbaf%26View%3D6efc759a%252D0646%252D433c%252Dab6e%252D2f027ffe0799%26RootFolder%3D%252Fwebsites%252Faaru2%252Fwp%252Dcontent%252Fplugins%252Flearnpress%252Fassets%252Fimages%26CurrentPage%3D1'
+      "
     />
     <div :style="dataStyle">
       <div>{{ movie.title }} ({{ movie.year }})</div>
@@ -21,7 +24,7 @@
       </div>
       <div>{{ movie.overview }}</div>
     </div>
-    <v-btn icon color="deep-purple accent-3" @click="deleteItem(movie.id)">
+    <v-btn icon color="deep-purple accent-3" @click="deleteItem(itemIndex)">
       <v-icon>mdi-close-thick</v-icon>
     </v-btn>
   </div>
@@ -66,6 +69,7 @@ export default {
     async deleteItem(id) {
       console.log(id, "id");
       await this.$store.dispatch("removeItem", id);
+      console.log(this.$store.state.myList, "!!!!!");
     },
   },
 };

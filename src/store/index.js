@@ -12,7 +12,7 @@ export default new Vuex.Store({
   },
   mutations: {
     setMoviesList(state, { data, append }) {
-      // console.log(data, append, 'DATA');
+      console.log(data, append, 'DATA');
       if (data.results) {
         if (append) {
           console.log(state.moviesList, 'list');
@@ -28,12 +28,10 @@ export default new Vuex.Store({
     setMyList(state, data) {
       state.myList = data;
     },
-    updateList(state, id) {
-      console.log(id, 'ID');
-      const index = state.myList.indexOf(id);
-      if (index > -1) {
-        state.myList.splice(index, 1);
-      }
+    updateList(state, index) {
+      console.log(state.myList, "myListBefore");
+      state.myList.splice(index, 1);
+      console.log(state.myList, "myListAfter");
     },
   },
   actions: {
@@ -42,10 +40,10 @@ export default new Vuex.Store({
         .get(`${config.endpoint}movie/${filter}?api_key=${config.apiKey}&page=${page}`)
         .then((res) => commit('setMoviesList', { data: res.data, append }));
     },
-    searchForMovie({ commit }, searchValue, page) {
+    searchForMovie({ commit }, { searchValue, page, append }) {
       axios
-        .get(`${config.endpoint}discover/movie?api_key=${config.apiKey}&language=ru&include_adult=false&with_keywords=${searchValue}&page=${page}`)
-        .then((res) => commit('setMoviesList', res.data.results));
+        .get(`${config.endpoint}search/movie?api_key=${config.apiKey}&include_adult=false&query=${searchValue}&page=${page}`)
+        .then((res) => commit('setMoviesList', { data: res.data, append }));
     },
     addMovieToList({ commit }, movieData) {
       axios

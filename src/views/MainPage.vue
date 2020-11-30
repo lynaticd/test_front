@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <div v-infinite-scroll="changePage" infinite-scroll-distance="10">
-      <SearchInput v-on:change-search="search" />
+      <SearchInput v-on:change-search="searchMovies" />
       <ButtonGroup
         :activeFilter="activeFilter"
         v-on:change-filter="changeFilter"
@@ -37,6 +37,7 @@ export default {
     page: 1,
     justify: ["space-between"],
     activeFilter: "popular",
+    search: "",
   }),
   directives: {
     infiniteScroll,
@@ -58,14 +59,27 @@ export default {
     async changePage() {
       this.page += 1;
       console.log(this.page, "this.value ");
-      await this.$store.dispatch("getMoviesList", {
-        filter: this.activeFilter,
-        page: this.page,
-        append: true,
-      });
+      if (this.search.length !== 0) {
+        await this.$store.dispatch("searchForMovie", {
+          searchValue: this.search,
+          page: this.page,
+          append: true,
+        });
+      } else {
+        await this.$store.dispatch("getMoviesList", {
+          filter: this.activeFilter,
+          page: this.page,
+          append: true,
+        });
+      }
     },
-    async search(value) {
-      await this.$store.dispatch("searchForMovie", value);
+    async searchMovies(value) {
+      this.search = value;
+      await this.$store.dispatch("searchForMovie", {
+        searchValue: this.search,
+        page: this.page,
+        append: false,
+      });
     },
   },
   async mounted() {
