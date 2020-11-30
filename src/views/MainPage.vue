@@ -58,7 +58,6 @@ export default {
     },
     async changePage() {
       this.page += 1;
-      console.log(this.page, "this.value ");
       if (this.search.length !== 0) {
         await this.$store.dispatch("searchForMovie", {
           searchValue: this.search,

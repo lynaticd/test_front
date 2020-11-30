@@ -47,7 +47,6 @@ export default {
     },
   },
   async mounted() {
-    console.log(this.$store.state.myList, "ssss");
     await this.$store.dispatch("getMyList");
   },
 };

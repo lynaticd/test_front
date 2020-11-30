@@ -67,9 +67,7 @@ export default {
   computed: {},
   methods: {
     async deleteItem(id) {
-      console.log(id, "id");
       await this.$store.dispatch("removeItem", id);
-      console.log(this.$store.state.myList, "!!!!!");
     },
   },
 };

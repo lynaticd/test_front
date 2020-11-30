@@ -12,10 +12,8 @@ export default new Vuex.Store({
   },
   mutations: {
     setMoviesList(state, { data, append }) {
-      console.log(data, append, 'DATA');
       if (data.results) {
         if (append) {
-          console.log(state.moviesList, 'list');
           const appendedList = state.moviesList.concat(data.results);
           state.moviesList = appendedList;
           return;
@@ -29,9 +27,7 @@ export default new Vuex.Store({
       state.myList = data;
     },
     updateList(state, index) {
-      console.log(state.myList, "myListBefore");
       state.myList.splice(index, 1);
-      console.log(state.myList, "myListAfter");
     },
   },
   actions: {
